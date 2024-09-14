@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Weather App Home Page - Accurate and Local Weather Forecasts{% endblock title %}
+{% block content %}
+
+<div class="flex flex-col items-center pt-8 h-screen bg-gray-400">
+    <!-- Container for the entire content including images -->
+    <div class="flex justify-center items-stretch w-full h-full relative">
+        <!-- Left Image -->
+        <div class="flex-shrink-0 h-full">
+            <img src="{{ url_for('static', filename='images/sunset_540px.jpg') }}" alt="Sunset" class="h-full w-auto transition-transform duration-300 object-cover hover:shimmy-continuous">
+        </div>
+        
+        <!-- Main Text Content -->
+        <div class="flex-1 flex items-center justify-center px-4">
+            <div class="text-center w-full max-w-2xl">
+                <h1 class="text-4xl font-bold text-black">Weather App Home Page - Accurate and Local Weather Forecasts</h1>
+                <div class="mt-4">
+                    <h2 class="text-3xl font-bold text-black">Instructions:</h2>
+                    <h3 class="text-xl font-bold text-black">
+                        Enter the name of the city, the two (2) letter state code, the two (2) letter country code, and submit the form.
+                    </h3>
+                    <h3>Upon submission, the following data will be displayed for the city requested:</h3>
+                    <div class="flex justify-center"> <!-- Center the list container -->
+                        <ul class="list-disc text-left"> <!-- Left-align the text and show bullets -->
+                            <li>Temperature</li>
+                            <li>Feels Like Temperature</li>
+                            <li>Conditions</li>
+                            <li>Humidity</li>
+                            <li>Wind Speed</li>
+                            <li>Pressure</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Image -->
+        <div class="flex-shrink-0 h-full">
+            <img src="{{ url_for('static', filename='images/lightning_540px.jpg') }}" alt="Lightning" class="h-full w-auto transition-transform duration-300 object-cover hover:shimmy-continuous">
+        </div>
+    </div>
+</div>
+
+<!-- CSS for Shimmy Effect -->
+<style>
+    /* Continuous shimmy effect with slower rocking */
+    .hover\:shimmy-continuous:hover {
+        animation: shimmy-tilt 2s ease-in-out infinite; /* Increased duration to 2s */
+    }
+
+    @keyframes shimmy-tilt {
+        0%, 100% {
+            transform: translateX(0) rotate(0deg);
+        }
+        25% {
+            transform: translateX(-5px) rotate(-2deg);
+        }
+        50% {
+            transform: translateX(5px) rotate(2deg);
+        }
+        75% {
+            transform: translateX(-5px) rotate(-2deg);
+        }
+    }
+</style>
+
+{% endblock content %}
