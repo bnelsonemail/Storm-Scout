@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get accurate, up-to-date weather forecasts for any location. Check the weather, temperature, humidity, and more with our Weather App.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Weather App - Accurate and Local Weather Forecasts">
+    <meta name="twitter:description" content="Get accurate, up-to-date weather forecasts for any location. Check the weather, temperature, humidity, and more with our Weather App.">
+    <meta name="twitter:image" content="https://example.com/preview-image.jpg">
+    <meta name="keywords" content="weather, weather forecast, local weather, weather app, temperature, humidity, weather updates">
+    <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "WebApplication",
+          "name": "Weather App",
+          "url": "https://example.com",
+          "description": "Get accurate, up-to-date weather forecasts for any location.",
+          "applicationCategory": "Weather",
+          "operatingSystem": "All",
+          "image": "https://example.com/preview-image.jpg",
+          "offers": {
+            "@type": "Offer",
+            "price": "0.00",
+            "priceCurrency": "USD"
+          }
+        }
+        </script>
+        
+    <title>{% block title %}{% endblock title %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-400 min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <div class="bg-black p-4">
+        <nav class="flex justify-between items-center">
+            <div class="text-white text-xl font-bold">Forex Currency Converter</div>
+            <div class="flex space-x-4">
+                <a href="/" class="text-white hover:bg-red-500 py-2 px-4 rounded transition-colors duration-300 ease-in-out cursor-pointer">
+                    Home
+                </a>
+                <a href="/table" class="text-white hover:bg-red-500 py-2 px-4 rounded transition-colors duration-300 ease-in-out cursor-pointer">
+                    Table
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    {% block content %}
+    
+    
+    
+    {% endblock content %}
+    
+</body>
+</html>

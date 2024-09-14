@@ -99,12 +99,20 @@ class Weather:
         """
         if weather_data:
             temp = weather_data['main']['temp']
+            feels_like = weather_data['main']['feels_like']
             description = weather_data['weather'][0]['description']
+            humidity = weather_data['main']['humidity']
+            wind = weather_data['wind']['speed']
+            pressure = weather_data['main']['pressure']
             city, state = location_info
 
             print(f"\nWeather in {city}, {state}:")
             print(f"Temperature: {temp}°F")
+            print(f"Feels Like Temperature: {feels_like}°F")
             print(f"Condition: {description.capitalize()}")
+            print(f"Humidity: {humidity} %")
+            print(f"Wind Speed: {wind} mph")
+            print(f"Pressure: {pressure} hPa")
         else:
             print("No weather data available.")
 
