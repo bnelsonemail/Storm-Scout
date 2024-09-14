@@ -2,13 +2,12 @@ import os
 import requests
 from dotenv import load_dotenv
 
-# load environment variables from .env file
+# Load environment variables from .env file
 load_dotenv()
-
 
 class Weather:
     """
-    Class that uses an API call to collect weather data based on user input of City, State Code and Country Code (ie: US, GB, etc.)
+    Class that uses an API call to collect weather data based on user input of City, State Code, and Country Code (e.g., US, GB, etc.)
     """
     
     def __init__(self, city_name, state_code, country_code):
@@ -28,32 +27,31 @@ class Weather:
         self.country_code = country_code
 
         if not self._api_key:
-            raise ValueError("API key not found.  Please set the API key in the .env file")
+            raise ValueError("API key not found. Please set the API key in the .env file")
 
     def get_lat_lon(self):
         """
-        Fetches latitude and longitude for the given city and state using the Zippopotam.us API.
+        Fetches latitude and longitude for the given city, state, and country using the OpenWeatherMap Geocoding API.
 
         Returns:
             tuple: A tuple containing latitude and longitude if successful, None if there's an error.
         """
-        # Format city and state for the URL
-        city_formatted = self.city_name.replace(" ", "%20").lower()
-        state_formatted = self.state_code.lower()
-        country_formatted = self.country_code.lower()
+        # Build the OpenWeatherMap Geocoding API request
+        params = {
+            'q': f'{self.city_name},{self.state_code},{self.country_code}',
+            'limit': 1,  # Limit to one result
+            'appid': self._api_key
+        }
 
-        # Build the Zippopotam.us API request
-        url = f"http://api.zippopotam.us/{country_formatted}/{state_formatted}/{city_formatted}"
-        
         try:
-            response = requests.get(url)
+            response = requests.get(self.base_geocode_url, params=params)
             response.raise_for_status()
             data = response.json()
             
-            if data['places']:
-                # Extract the first place's latitude and longitude
-                lat = float(data['places'][0]['latitude'])
-                lon = float(data['places'][0]['longitude'])
+            if data:
+                # Extract the latitude and longitude from the first result
+                lat = float(data[0]['lat'])
+                lon = float(data[0]['lon'])
                 return lat, lon
             else:
                 print("No location data found.")
@@ -62,8 +60,7 @@ class Weather:
             print(f"Error fetching latitude and longitude data: {e}")
             return None
 
-    
-    def get_weather (self, lat, lon):
+    def get_weather(self, lat, lon):
         """
         Fetches the weather data from the OpenWeatherMap API using latitude and longitude.
 
@@ -74,25 +71,23 @@ class Weather:
         Returns:
             dict: The weather data returned from the API in JSON format, or None if an error occurs.
         """
-
         params = {
             'lat': lat,
             'lon': lon,
             'appid': self._api_key,
             'units': 'imperial'
         }
-    
+
         try:
             response = requests.get(self.base_weather_url, params=params)
-            response.raise_for_status() # Raises an error if the request was unsuccessful
+            response.raise_for_status()  # Raises an error if the request was unsuccessful
             return response.json()
-        except requests.exeptions.HTTPError as http_err:
+        except requests.exceptions.HTTPError as http_err:
             print(f"HTTP error occurred: {http_err}")
         except Exception as err:
             print(f"Error occurred: {err}")
-        
+
         return None
-    
     
     def display_weather(self, weather_data, location_info):
         """
@@ -101,20 +96,18 @@ class Weather:
         Args:
             weather_data (dict): The weather data returned from the API.
             location_info (tuple): A tuple containing location details (name, state, country).
-        """      
+        """
         if weather_data:
             temp = weather_data['main']['temp']
             description = weather_data['weather'][0]['description']
             city, state = location_info
-            
+
             print(f"\nWeather in {city}, {state}:")
             print(f"Temperature: {temp}°F")
             print(f"Condition: {description.capitalize()}")
         else:
             print("No weather data available.")
-        
 
-    
 if __name__ == "__main__":
     # Get user input for city, state, and country
     city_name = input("Enter the city name: ")
@@ -123,10 +116,10 @@ if __name__ == "__main__":
 
     # Create a Weather object
     weather = Weather(city_name, state_code, country_code)
-    
+
     # Get the latitude and longitude
     lat_lon = weather.get_lat_lon()
-    
+
     if lat_lon:
         lat, lon = lat_lon
         # Fetch and display weather
