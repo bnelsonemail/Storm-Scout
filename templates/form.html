@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Weather App Form Input Page - Accurate and Local Weather Forecasts{% endblock title %}
+
+{% block content %}
+<div class="flex flex-col items-center h-screen bg-gray-400 px-6 pb-6 pt-8">
+    <!-- Container for the entire content including images -->
+    <div class="flex justify-center items-start w-full h-full relative">
+        <!-- Left Image -->
+        <div class="hidden md:flex flex-shrink-0 h-full w-1/4 bg-cover bg-center hover:shimmy-rock" style="background-image: url('{{ url_for('static', filename='images/snow_700px.jpg') }}');">
+            <!-- Use a background image for the left side -->
+        </div>
+        
+        <!-- Form Modal Container -->
+        <div class="flex-1 flex flex-col items-center justify-start px-4 mt-4">
+            <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md mx-4">
+                <form action="/results" method="POST" class="flex flex-col space-y-4">
+                    <!-- City Input -->
+                    <div class="flex flex-col">
+                        <label for="city" class="font-bold text-gray-700">City</label>
+                        <input 
+                            type="text" 
+                            id="city" 
+                            name="city" 
+                            placeholder="Jacksonville" 
+                            class="border border-gray-300 rounded-md p-2"
+                            required>
+                    </div>
+
+                    <!-- State Input -->
+                    <div class="flex flex-col">
+                        <label for="state" class="font-bold text-gray-700">State</label>
+                        <input 
+                            type="text" 
+                            id="state" 
+                            name="state" 
+                            placeholder="FL" 
+                            maxlength="2" 
+                            pattern="[A-Za-z]{2}" 
+                            class="border border-gray-300 rounded-md p-2"
+                            required
+                            title="State code must be exactly 2 letters.">
+                    </div>
+
+                    <!-- Country Input -->
+                    <div class="flex flex-col">
+                        <label for="country" class="font-bold text-gray-700">Country</label>
+                        <input 
+                            type="text" 
+                            id="country" 
+                            name="country" 
+                            placeholder="US" 
+                            maxlength="2" 
+                            pattern="[A-Za-z]{2}" 
+                            class="border border-gray-300 rounded-md p-2"
+                            required
+                            title="Country code must be exactly 2 letters.">
+                    </div>
+
+                    <!-- Form Buttons -->
+                    <div class="flex justify-between mt-4">
+                        <!-- Submit Button -->
+                        <button 
+                            type="submit" 
+                            class="bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                            Submit
+                        </button>
+                        <!-- Reset Button -->
+                        <button 
+                            type="reset" 
+                            class="bg-red-600 text-white font-bold py-2 px-4 rounded-md hover:bg-red-700 transition-colors">
+                            Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Right Image -->
+        <div class="hidden md:flex flex-shrink-0 h-full w-1/4 bg-cover bg-center hover:shimmy-rock" style="background-image: url('{{ url_for('static', filename='images/thunderstorm_540px.jpg') }}');">
+            <!-- Use a background image for the right side -->
+        </div>
+    </div>
+</div>
+
+<!-- CSS for Shimmy and Link Hover Effects -->
+<style>
+    /* Shimmy and Rocking Effect */
+    .hover\:shimmy-rock:hover {
+        animation: shimmy-rock 1.5s ease-in-out infinite;
+    }
+
+    @keyframes shimmy-rock {
+        0%, 100% {
+            transform: translateX(0) rotate(0deg);
+        }
+        25% {
+            transform: translateX(-5px) rotate(-2deg);
+        }
+        50% {
+            transform: translateX(5px) rotate(2deg);
+        }
+        75% {
+            transform: translateX(-5px) rotate(-2deg);
+        }
+    }
+</style>
+
+{% endblock content %}
+
+

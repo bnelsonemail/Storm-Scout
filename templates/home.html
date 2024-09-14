@@ -11,7 +11,7 @@
         </div>
         
         <!-- Main Text Content -->
-        <div class="flex-1 flex items-center justify-center px-4">
+        <div class="flex-1 flex flex-col items-center justify-center px-4">
             <div class="text-center w-full max-w-2xl">
                 <h1 class="text-4xl font-bold text-black">Weather App Home Page - Accurate and Local Weather Forecasts</h1>
                 <div class="mt-4">
@@ -30,6 +30,10 @@
                             <li>Pressure</li>
                         </ul>
                     </div>
+                    <!-- "Go to Form" link with hover effect, centered directly below the list -->
+                    <div class="mt-4">
+                        <a href="/form" class="go-to-form-link text-blue-600 font-bold text-lg">Go to Form</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,7 +45,7 @@
     </div>
 </div>
 
-<!-- CSS for Shimmy Effect -->
+<!-- CSS for Shimmy and Link Hover Effects -->
 <style>
     /* Continuous shimmy effect with slower rocking */
     .hover\:shimmy-continuous:hover {
@@ -61,6 +65,16 @@
         75% {
             transform: translateX(-5px) rotate(-2deg);
         }
+    }
+
+    /* Link Hover Effect */
+    .go-to-form-link {
+        color: #1D4ED8; /* Blue color */
+        cursor: pointer;
+    }
+    .go-to-form-link:hover {
+        color: red; /* Change text color to red on hover */
+        transition: color 0.3s ease; /* Smooth transition */
     }
 </style>
 

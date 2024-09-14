@@ -23,3 +23,12 @@ def home():
     """Renders the home page with the currency conversion form."""
     return render_template('home.html')
 
+
+@app.route('/form')
+def form():
+    """Renders the page for the user to enter the data into the form"""
+    return render_template('form.html')
+
+
+if __name__ == "__main__":
+    app.run(debug=True, use_reloader=True)
