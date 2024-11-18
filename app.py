@@ -11,49 +11,55 @@ load_dotenv(find_dotenv())
 app = Flask(__name__)
 
 # Call config files
-app.config.from_object(DevelopmentConfig) # Use DevelopmentConfig, TestingConfig or ProductionConfig
-from dotenv import load_dotenv, find_dotenv
+app.config.from_object(DevelopmentConfig)  # Use DevelopmentConfig, TestingConfig or ProductionConfig
 debug = DebugToolbarExtension(app)
-
-w = Weather()
 
 # ********************  ROUTING *******************************************
 
 @app.route('/')
 def home():
-    """Renders the home page with the currency conversion form."""
+    """Renders the home page."""
     return render_template('home.html')
 
 
-@app.route('/form')
+@app.route('/form', methods=['GET', 'POST'])
 def form():
-    """Renders the page for the user to enter the data into the form"""
-    return render_template('form.html')
+    """Renders the form and displays weather results if available."""
+    if request.method == 'POST':
+        city = request.form.get('city').lower()
+        state = request.form.get('state').upper()
+        country = request.form.get('country').upper()
+        
+        try:
+            # Create a Weather object
+            weather = Weather(city, state, country)
+            
+            # Get the latitude and longitude
+            lat_lon = weather.get_lat_lon()
 
-@app.route('/results')
-def results():
-    """Handles form submission, calls the Weather API, and redirects to #form """
-    city = request.form.get('city').lower()
-    state = request.form.get('state').upper()
-    country = request.form.get('country').upper()
+            if lat_lon:
+                lat, lon = lat_lon
+                # Fetch weather data
+                weather_data = weather.get_weather(lat, lon)
+                
+                if weather_data:
+                    # Pass weather data to the template
+                    return render_template('form.html', weather_data=weather_data, city=city, state=state, country=country)
+                else:
+                    # Handle if weather data is not found
+                    return render_template('form.html', error="Weather data not found.")
+            else:
+                # Handle if location is not found
+                return render_template('form.html', error="Location not found.")
+        except ValueError as e:
+            # Handle invalid state or country codes
+            return render_template('form.html', error=str(e))
+        except Exception as e:
+            # Handle other errors and display them on the error page
+            return render_template('form.html', error=str(e))
     
-    try:
-        # Store the results in the session
-        session[city] = city
-        session[state] = state
-        session[country] = country
-        
-        
-        # Redirects to #form to display the results
-        return redirect('#form')
-    except ValueError as e:
-        # Handle invalid state or country codes
-        return render_template('home.html', error=str(e)), 400
-    except Exception as e:
-        # Handle other errors and display them on the error page
-        return render_template('error.html', error=str(e)), 500
-        
-
+    # For GET requests, render the form without weather data
+    return render_template('form.html')
 
 
 if __name__ == "__main__":

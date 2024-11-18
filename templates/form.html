@@ -3,18 +3,12 @@
 
 {% block content %}
 <div class="flex flex-col items-center h-screen bg-gray-400 px-6 pb-6 pt-8">
-    <!-- Container for the entire content including images -->
     <div class="flex justify-center items-start w-full h-full relative">
-        <!-- Left Image -->
-        <div class="hidden md:flex flex-shrink-0 h-full w-1/4 bg-cover bg-center hover:shimmy-rock" style="background-image: url('{{ url_for('static', filename='images/snow_700px.jpg') }}');">
-            <!-- Use a background image for the left side -->
-        </div>
+        <div class="hidden md:flex flex-shrink-0 h-full w-1/4 bg-cover bg-center hover:shimmy-rock" style="background-image: url('{{ url_for('static', filename='images/snow_700px.jpg') }}');"></div>
         
-        <!-- Form Modal Container -->
         <div class="flex-1 flex flex-col items-center justify-start px-4 mt-4">
             <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md mx-4">
-                <form action="/results" method="POST" class="flex flex-col space-y-4">
-                    <!-- City Input -->
+                <form action="/form" method="POST" class="flex flex-col space-y-4">
                     <div class="flex flex-col">
                         <label for="city" class="font-bold text-gray-700">City</label>
                         <input 
@@ -26,7 +20,6 @@
                             required>
                     </div>
 
-                    <!-- State Input -->
                     <div class="flex flex-col">
                         <label for="state" class="font-bold text-gray-700">State</label>
                         <input 
@@ -37,11 +30,9 @@
                             maxlength="2" 
                             pattern="[A-Za-z]{2}" 
                             class="border border-gray-300 rounded-md p-2"
-                            required
                             title="State code must be exactly 2 letters.">
                     </div>
 
-                    <!-- Country Input -->
                     <div class="flex flex-col">
                         <label for="country" class="font-bold text-gray-700">Country</label>
                         <input 
@@ -56,15 +47,12 @@
                             title="Country code must be exactly 2 letters.">
                     </div>
 
-                    <!-- Form Buttons -->
                     <div class="flex justify-between mt-4">
-                        <!-- Submit Button -->
                         <button 
                             type="submit" 
                             class="bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
                             Submit
                         </button>
-                        <!-- Reset Button -->
                         <button 
                             type="reset" 
                             class="bg-red-600 text-white font-bold py-2 px-4 rounded-md hover:bg-red-700 transition-colors">
@@ -72,19 +60,43 @@
                         </button>
                     </div>
                 </form>
+
+                <!-- Display Weather Results -->
+                {% if weather_data %}
+                <div class="mt-8 bg-gray-100 p-4 rounded-lg">
+                    <h2 class="text-2xl font-bold mb-4">Weather in {{ city.capitalize() }}, {{ state }}</h2>
+                    <p>Temperature: {{ weather_data['main']['temp'] }}°F</p>
+                    <p>Feels Like Temperature: {{ weather_data['main']['feels_like'] }}°F</p>
+                    <p>Condition: {{ weather_data['weather'][0]['description'] | capitalize }}</p>
+                    <p>Humidity: {{ weather_data['main']['humidity'] }}%</p>
+                    <p>Wind Speed: {{ weather_data['wind']['speed'] }} mph</p>
+                    <p>Pressure: {{ weather_data['main']['pressure'] }} hPa</p>
+                </div>
+
+                <!-- Display Radar Map -->
+                {% if radar_url %}
+                <div class="mt-8">
+                    <h3 class="text-xl font-bold mb-2">Radar Map</h3>
+                    <img src="{{ radar_url }}" alt="Radar Map" class="rounded-lg shadow-lg">
+                </div>
+                {% endif %}
+                {% endif %}
+
+                <!-- Display Errors -->
+                {% if error %}
+                <div class="mt-8 bg-red-100 p-4 rounded-lg text-red-700">
+                    <p>{{ error }}</p>
+                </div>
+                {% endif %}
             </div>
         </div>
 
-        <!-- Right Image -->
-        <div class="hidden md:flex flex-shrink-0 h-full w-1/4 bg-cover bg-center hover:shimmy-rock" style="background-image: url('{{ url_for('static', filename='images/thunderstorm_540px.jpg') }}');">
-            <!-- Use a background image for the right side -->
-        </div>
+        <div class="hidden md:flex flex-shrink-0 h-full w-1/4 bg-cover bg-center hover:shimmy-rock" style="background-image: url('{{ url_for('static', filename='images/thunderstorm_540px.jpg') }}');"></div>
     </div>
 </div>
 
 <!-- CSS for Shimmy and Link Hover Effects -->
 <style>
-    /* Shimmy and Rocking Effect */
     .hover\:shimmy-rock:hover {
         animation: shimmy-rock 1.5s ease-in-out infinite;
     }
@@ -106,5 +118,4 @@
 </style>
 
 {% endblock content %}
-
 
